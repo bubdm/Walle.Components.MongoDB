@@ -1,37 +1,149 @@
-## Welcome to GitHub Pages
+# Walle.Components.MongoDB
 
-You can use the [editor on GitHub](https://github.com/walle-work/Walle.Components.MongoDB/edit/gh-pages/index.md) to maintain and preview the content for your website in Markdown files.
+happy code-first using MongoDB
 
-Whenever you commit to this repository, GitHub Pages will run [Jekyll](https://jekyllrb.com/) to rebuild the pages in your site, from the content in your Markdown files.
+## Installations
 
-### Markdown
+### Package Manager:
 
-Markdown is a lightweight and easy-to-use syntax for styling your writing. It includes conventions for
-
-```markdown
-Syntax highlighted code block
-
-# Header 1
-## Header 2
-### Header 3
-
-- Bulleted
-- List
-
-1. Numbered
-2. List
-
-**Bold** and _Italic_ and `Code` text
-
-[Link](url) and ![Image](src)
+```
+Install-Package Walle.Components.MongoDB -Version 1.0.0
 ```
 
-For more details see [GitHub Flavored Markdown](https://guides.github.com/features/mastering-markdown/).
+### .NetCore CLI:
 
-### Jekyll Themes
+```
+dotnet add package Walle.Components.MongoDB --version 1.0.0
+```
 
-Your Pages site will use the layout and styles from the Jekyll theme you have selected in your [repository settings](https://github.com/walle-work/Walle.Components.MongoDB/settings). The name of this theme is saved in the Jekyll `_config.yml` configuration file.
+### Configurations
 
-### Support or Contact
+1. add the follow section into ` appsettings.json` :
 
-Having trouble with Pages? Check out our [documentation](https://docs.github.com/categories/github-pages-basics/) or [contact support](https://support.github.com/contact) and we’ll help you sort it out.
+```
+{
+  "MongoDBConfig": {
+    "ConnectionStr": "mongodb://127.0.0.1:27017/walle",
+    "DatabaseName": "walle"
+  }
+}
+```
+
+2. register dependency in your `Startup.cs` 
+
+```csharp
+
+private IConfiguration Configuration { get; }
+public Startup(IConfiguration configuration)
+{
+    Configuration = configuration;
+}
+
+public void ConfigureServices(IServiceCollection services)
+{
+    services.ConfigureMongoDB(Configuration);
+}
+
+```
+
+### Samples
+
+1. Inherited an entity from MongoEntity which will be a collection model.
+```cs
+using Walle.Components.MongoDB;
+namespace Demo
+{
+    public class ActivityModel : MongoEntity
+    {
+        public string Name { get; set; }
+        public string Description { get; set; }
+
+    }
+}
+```
+
+2. using `IMongoDBCollection<T>` to do ```IQueryable``` operations with LINQ.
+
+```cs
+using Demo;
+using Walle.Components.MongoDB;
+
+namespace Demo.Controllers
+{
+    [Route("api/[controller]")]
+    [ApiController]
+    public class ActivityController : ControllerBase
+    {
+        private IMongoDBCollection<ActivityModel> ActivityCollection { get; }
+        public ActivityController(IMongoDBCollection<ActivityModel> collection)
+        {
+            this.ActivityCollection = collection;
+        }
+
+        [HttpGet]
+        public RespList<ActivityModel> GetAll()
+        {
+            RespList<ActivityModel> resp = new RespList<ActivityModel>();
+            try
+            {
+                var sources = ActivityCollection.AsQueryable()?.ToList();
+                resp.Message = $"success.";
+                resp.Data = sources;
+            }
+            catch (Exception ex)
+            {
+                resp.Code = (int)RespCode.Exception;
+                resp.IsSuccess = false;
+            }
+            return resp;
+        }
+    }
+}
+
+```
+
+3. using `IMongoDBClient` to get the mongodb client for more operations.
+
+```cs
+using System;
+using System.Linq;
+using Microsoft.AspNetCore.Mvc;
+using Walle.Components.MongoDB;
+
+namespace Demo.Controllers
+{
+    [Route("api/[controller]")]
+    [ApiController]
+    public class DemoController : ControllerBase
+    {
+        private IMongoDBClient Client { get; }
+
+        public DemoController(IMongoDBClient Client)
+        {
+            this.Client = Client;
+        }
+
+        [HttpGet]
+        public RespList<ActivityModel> GetAll()
+        {
+            RespList<ActivityModel> resp = new RespList<ActivityModel>();
+            try
+            {
+                var results = Client.Find<ActivityModel>(p => p.Name == "Misaya").ToList();
+                resp.Data = results;
+            }
+            catch (Exception )
+            {
+                var msg = "Exception occured when query activity.";
+            }
+            return resp;
+        }
+
+    }
+}
+
+```
+
+## Support or Contact
+
+Having trouble with our components?  [contact support](mailto:xfhmailbox@msn.com) and we’ll help you sort it out.
