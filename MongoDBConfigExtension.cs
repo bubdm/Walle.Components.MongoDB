@@ -4,9 +4,6 @@ using System.Collections.Generic;
 using System.Reflection;
 using Microsoft.Extensions.Configuration;
 using Walle.Components.MongoDB;
-using Microsoft.Extensions.Options;
-using Microsoft.Extensions.DependencyInjection.Extensions;
-using Microsoft.Extensions.Configuration.Memory;
 
 namespace Microsoft.Extensions.DependencyInjection
 {

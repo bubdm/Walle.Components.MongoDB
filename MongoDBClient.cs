@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Security.Authentication;
-using Microsoft.Extensions.Options;
 using MongoDB.Driver;
 
 namespace Walle.Components.MongoDB

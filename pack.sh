@@ -1,1 +1,1 @@
-dotnet pack /p:Version=1.0.1 -c Release -o ../nupkg
+dotnet pack /p:Version=2.0.1 -c Release -o ../nupkg
