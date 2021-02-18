@@ -1,26 +1,24 @@
 # Walle.Components.MongoDB
 
-[TOC]
+happy code-first using MongoDB
 
-## 安装
+## Installations
 
-### 使用 Package Manager:
+### Package Manager:
 
 ```
 Install-Package Walle.Components.MongoDB -Version 1.0.0
 ```
 
-### 使用.NetCore CLI:
+### .NetCore CLI:
 
 ```
 dotnet add package Walle.Components.MongoDB --version 1.0.0
 ```
 
-## 示例
+### Configurations
 
-### 配置
-
-1. 在 ` appsettings.json` 中添加以下节点:
+1. add the follow section into ` appsettings.json` :
 
 ```
 {
@@ -31,7 +29,7 @@ dotnet add package Walle.Components.MongoDB --version 1.0.0
 }
 ```
 
-2. 在 `Startup.cs` 中注册依赖:
+2. register dependency in your `Startup.cs` 
 
 ```csharp
 
@@ -48,8 +46,9 @@ public void ConfigureServices(IServiceCollection services)
 
 ```
 
-### 实体示例
+## Samples
 
+1. Inherited an entity from MongoEntity which will be a collection model.
 ```cs
 using Walle.Components.MongoDB;
 namespace Demo
@@ -63,9 +62,7 @@ namespace Demo
 }
 ```
 
-### 调用示例
-
-1. 使用 `IMongoDBCollection<T>` 的 Resolve 实例来完成各种 `CRUD` 的操作。
+2. using `IMongoDBCollection<T>` to do ```IQueryable``` operations with LINQ.
 
 ```cs
 using Demo;
@@ -105,7 +102,7 @@ namespace Demo.Controllers
 
 ```
 
-2. 使用 `IMongoDBClient` 的 Resolve 实例来完成 `CRUD`:
+3. using `IMongoDBClient` to get the mongodb client for more operations.
 
 ```cs
 using System;
@@ -113,7 +110,7 @@ using System.Linq;
 using Microsoft.AspNetCore.Mvc;
 using Walle.Components.MongoDB;
 
-namespace OPPO.SDL.Compliance.WebAPI.Controllers
+namespace Demo.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
