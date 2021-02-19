@@ -7,12 +7,15 @@
     <AssemblyVersion>2.0.0.0</AssemblyVersion>
     <FileVersion>2.0.0.0</FileVersion>
     <Version>2.0.0</Version>
-    <Description>happy code-first using MongoDB</Description>
+    <Description>A mongodb component that are easy-using, low-coding to use.</Description>
     <PackageProjectUrl>https://walle-work.github.io/Walle.Components.MongoDB/</PackageProjectUrl>
-    <RepositoryUrl>https://github.com/walle-work/Walle.Components.MongoDB</RepositoryUrl>
+    <RepositoryUrl>https://github.com/walle-work/Walle.Components.MongoDB.git</RepositoryUrl>
     <RepositoryType>git</RepositoryType>
     <PackageLicenseExpression>MIT</PackageLicenseExpression>
-    <Copyright></Copyright>
+    <Copyright>Copyright © 2021 Walle-Work</Copyright>
+    <Authors>Misaya</Authors>
+    <Company>Walle-Work</Company>
+    <Product>Walle.Components</Product>
   </PropertyGroup>
   <ItemGroup>
     <PackageReference Include="MongoDB.Driver" Version="2.11.1" />
