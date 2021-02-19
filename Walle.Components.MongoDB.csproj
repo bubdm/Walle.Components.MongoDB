@@ -1,5 +1,4 @@
 <Project Sdk="Microsoft.NET.Sdk">
-
   <PropertyGroup>
     <TargetFramework>netstandard2.0</TargetFramework>
     <PackageRequireLicenseAcceptance>true</PackageRequireLicenseAcceptance>
@@ -15,7 +14,6 @@
     <PackageLicenseExpression>MIT</PackageLicenseExpression>
     <Copyright></Copyright>
   </PropertyGroup>
-
   <ItemGroup>
     <PackageReference Include="MongoDB.Driver" Version="2.11.1" />
     <PackageReference Include="System.Text.Json" Version="4.7.2" />
@@ -25,16 +23,10 @@
     <PackageReference Include="Microsoft.Extensions.DependencyInjection.Abstractions" Version="3.1.7" />
     <PackageReference Include="Microsoft.Extensions.Logging" Version="3.1.0" />
   </ItemGroup>
-
   <ItemGroup>
-    <None Include="..\..\..\..\OneDrive\图片\Walle\walle_icon_48_48_2.png">
-      <Pack>True</Pack>
-      <PackagePath></PackagePath>
-    </None>
     <None Include="walle_icon_48_48_2.png">
       <Pack>True</Pack>
       <PackagePath></PackagePath>
     </None>
   </ItemGroup>
-
 </Project>
