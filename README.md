@@ -7,13 +7,13 @@ happy code-first using MongoDB
 ### Package Manager:
 
 ```
-Install-Package Walle.Components.MongoDB -Version 2.0.0
+Install-Package Walle.Components.MongoDB  
 ```
 
 ### .NetCore CLI:
 
 ```
-dotnet add package Walle.Components.MongoDB --version 2.0.0
+dotnet add package Walle.Components.MongoDB 
 ```
 
 ### Configurations
