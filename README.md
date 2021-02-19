@@ -1,6 +1,7 @@
 # Walle.Components.MongoDB
 
-happy code-first using MongoDB
+[![badge](https://github.com/walle-work/Walle.Components.MongoDB/workflows/dotNetStandard/badge.svg)](https://github.com/walle-work/Walle.Components.MongoDB/actions/)
+[![NuGet Badge](https://buildstats.info/nuget/Walle.Components.MongoDB)](https://www.nuget.org/packages/Walle.Components.MongoDB/)
 
 ## Installations
 
