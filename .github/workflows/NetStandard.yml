@@ -19,5 +19,7 @@ jobs:
       run: dotnet build -c Release
     - name: Package
       run: dotnet pack /p:Version=2.0.$GITHUB_RUN_NUMBER -c Release -o ./
-    - name: Publish
+    - name: Publish-microsoft-nuget
       run: dotnet nuget push Walle.Components.MongoDB.2.0.$GITHUB_RUN_NUMBER.nupkg --api-key ${{secrets.NUGET_MISAYA_KEY}} --source https://api.nuget.org/v3/index.json
+    - name: Publish-github-nuget
+      run: dotnet nuget push Walle.Components.MongoDB.2.0.$GITHUB_RUN_NUMBER.nupkg --api-key ${{secrets.MISAYA_PAT}} --source https://nuget.pkg.github.com/OWNER/index.json
