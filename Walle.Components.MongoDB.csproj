@@ -2,7 +2,7 @@
 
   <PropertyGroup>
     <TargetFramework>netstandard2.0</TargetFramework>
-    <PackageRequireLicenseAcceptance>false</PackageRequireLicenseAcceptance>
+    <PackageRequireLicenseAcceptance>true</PackageRequireLicenseAcceptance>
     <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
     <PackageIcon>walle_icon_48_48_2.png</PackageIcon>
     <AssemblyVersion>2.0.0.0</AssemblyVersion>
@@ -12,6 +12,8 @@
     <PackageProjectUrl>https://walle-work.github.io/Walle.Components.MongoDB/</PackageProjectUrl>
     <RepositoryUrl>https://github.com/walle-work/Walle.Components.MongoDB</RepositoryUrl>
     <RepositoryType>git</RepositoryType>
+    <PackageLicenseExpression>MIT</PackageLicenseExpression>
+    <Copyright></Copyright>
   </PropertyGroup>
 
   <ItemGroup>
