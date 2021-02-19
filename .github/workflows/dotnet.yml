@@ -8,18 +8,16 @@ on:
 
 jobs:
   build:
-
     runs-on: ubuntu-latest
-
     steps:
     - uses: actions/checkout@v2
     - name: Setup .NET
       uses: actions/setup-dotnet@v1
       with:
         dotnet-version: 5.0.x
-    - name: Restore dependencies
-      run: dotnet restore
     - name: Build
-      run: dotnet build --no-restore -c Release
-    - name: package
-      run: dotnet pack /p:Version=2.0.1 -c Release
+      run: dotnet build -c Release
+    - name: Package
+      run: dotnet pack /p:Version=2.$GITHUB_RUN_NUMBER.$GITHUB_RUN_ID -c Release
+    - name: Publish
+      run: dotnet nuget push AppLogger.1.0.0.nupkg --api-key ${{secrets.NUGET_MISAYA_KEY}} --source https://api.nuget.org/v3/index.json
