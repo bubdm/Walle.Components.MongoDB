@@ -25,10 +25,6 @@
   </ItemGroup>
 
   <ItemGroup>
-    <None Include="..\..\..\..\OneDrive\图片\Walle\walle_icon_48_48_2.png">
-      <Pack>True</Pack>
-      <PackagePath></PackagePath>
-    </None>
     <None Include="walle_icon_48_48_2.png">
       <Pack>True</Pack>
       <PackagePath></PackagePath>
