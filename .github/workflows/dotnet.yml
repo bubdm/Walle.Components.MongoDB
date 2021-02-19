@@ -20,4 +20,4 @@ jobs:
     - name: Package
       run: dotnet pack /p:Version=2.$GITHUB_RUN_NUMBER.$GITHUB_RUN_ID -c Release
     - name: Publish
-      run: dotnet nuget push AppLogger.1.0.0.nupkg --api-key ${{secrets.NUGET_MISAYA_KEY}} --source https://api.nuget.org/v3/index.json
+      run: dotnet nuget push Walle.Components.MongoDB.2.$GITHUB_RUN_NUMBER.$GITHUB_RUN_ID.nupkg --api-key ${{secrets.NUGET_MISAYA_KEY}} --source https://api.nuget.org/v3/index.json
