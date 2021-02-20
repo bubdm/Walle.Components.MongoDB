@@ -10,7 +10,7 @@ jobs:
   release:
     runs-on: ubuntu-latest
     env:
-      VERSION: 2.0.0.$GITHUB_RUN_ID
+      VERSION: 2.0.0.$GITHUB_RUN_NUMBER
       NAME: Walle.Components.MongoDB
     steps:
     - uses: actions/checkout@v2
