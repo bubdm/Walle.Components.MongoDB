@@ -84,5 +84,10 @@ namespace Walle.Components.MongoDB
         {
             return MongoDBClient.UpdateOne<T>(filter, update);
         }
+
+        public bool UpdateMany(Expression<Func<T, bool>> filter, UpdateDefinition<T> update)
+        {
+            return MongoDBClient.UpdateMany<T>(filter, update);
+        }
     }
 }

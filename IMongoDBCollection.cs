@@ -19,5 +19,6 @@ namespace Walle.Components.MongoDB
         IEnumerable<T> Query(Expression<Func<T, bool>> filter);
         (IEnumerable<T> Result, long Count) Query(IQueryable<T> query, int pageIndex, int pageSize);
         bool UpdateOne(Expression<Func<T, bool>> filter, UpdateDefinition<T> update);
+        bool UpdateMany(Expression<Func<T, bool>> filter, UpdateDefinition<T> update);
     }
 }
