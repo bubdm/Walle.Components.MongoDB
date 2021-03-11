@@ -1,8 +1,7 @@
-﻿
+﻿using Microsoft.Extensions.Configuration;
 using System;
 using System.Collections.Generic;
 using System.Reflection;
-using Microsoft.Extensions.Configuration;
 using Walle.Components.MongoDB;
 
 namespace Microsoft.Extensions.DependencyInjection
@@ -23,7 +22,6 @@ namespace Microsoft.Extensions.DependencyInjection
                     };
                     return mongoDBConfig;
                 });
-
             }
             catch (Exception ex)
             {
@@ -61,7 +59,6 @@ namespace Microsoft.Extensions.DependencyInjection
                     mongoEntityTypes.Add(type);
                 }
             }
-
             foreach (var type in mongoEntityTypes)
             {
                 var interface_type = typeof(IMongoDBCollection<>).MakeGenericType(type);

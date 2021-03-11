@@ -75,9 +75,9 @@ namespace Walle.Components.MongoDB
             return (result, count);
         }
 
-        public static UpdateDefinition<T> UpdateBuilder<T>(this T t) where T : IMongoEntity
+        public static UpdateDefinitionBuilder<T> UpdateBuilder<T>(this T t) where T : IMongoEntity
         {
-            return Builders<T>.Update.Set(p => p.ID, t.ID);
+            return Builders<T>.Update;
         }
     }
 }
