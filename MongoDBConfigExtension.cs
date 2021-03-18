@@ -8,8 +8,43 @@ namespace Microsoft.Extensions.DependencyInjection
 {
     public static class MongoDBConfigExtensions
     {
-        public static IServiceCollection ConfigureMongoDB(this IServiceCollection services,
-            IConfiguration configuration)
+        public static IServiceCollection ConfigureMongoDB(this IServiceCollection services)
+        {
+            services.AddMongoDB();
+            services.AddMongoDBClientScope();
+            services.AddMongoDBEntityScope();
+            return services;
+        }
+
+        public static IServiceCollection ConfigureMongoDB(this IServiceCollection services, IConfiguration configuration)
+        {
+            services.AddMongoDB(configuration);
+            services.AddMongoDBClientScope();
+            services.AddMongoDBEntityScope();
+            return services;
+        }
+
+        public static void AddMongoDB(this IServiceCollection services)
+        {
+            try
+            {
+                IConfiguration configuration = services.BuildServiceProvider().GetRequiredService<IConfiguration>();
+                services.AddSingleton<IMongoDBConfig>((provider) =>
+                {
+                    var mongoDBConfig = new MongoDBConfig
+                    {
+                        ConnectionStr = configuration["MongoDBConfig:ConnectionStr"].ToString(),
+                        DatabaseName = configuration["MongoDBConfig:DatabaseName"].ToString()
+                    };
+                    return mongoDBConfig;
+                });
+            }
+            catch (Exception ex)
+            {
+                throw new Exception("exception when load MongoDBConfig{ConnectionStr:\"\",DatabaseName:\"\"}", ex);
+            }
+        }
+        public static void AddMongoDB(this IServiceCollection services, IConfiguration configuration)
         {
             try
             {
@@ -27,6 +62,9 @@ namespace Microsoft.Extensions.DependencyInjection
             {
                 throw new Exception("exception when load MongoDBConfig{ConnectionStr:\"\",DatabaseName:\"\"}", ex);
             }
+        }
+        public static void AddMongoDBClientScope(this IServiceCollection services)
+        {
             try
             {
                 services.AddScoped<IMongoDBClient, MongoDBClient>();
@@ -35,35 +73,68 @@ namespace Microsoft.Extensions.DependencyInjection
             {
                 throw new Exception("exception when add scope instance for MongoDBClient.", ex);
             }
+        }
+        public static void AddMongoDBClientSingleton(this IServiceCollection services)
+        {
             try
             {
-                services.AddScopeOfMongDBEntities();
+                services.AddSingleton<IMongoDBClient, MongoDBClient>();
+            }
+            catch (Exception ex)
+            {
+                throw new Exception("exception when add scope instance for MongoDBClient.", ex);
+            }
+        }
+        public static void AddMongoDBEntityScope(this IServiceCollection services)
+        {
+            try
+            {
+                var assembly = Assembly.GetEntryAssembly();
+                var mongoEntityTypes = new List<Type>();
+                var types = assembly.GetTypes();
+                foreach (var type in types)
+                {
+                    if (type != null && type.BaseType != null && type.BaseType.Equals(typeof(MongoEntity)))
+                    {
+                        mongoEntityTypes.Add(type);
+                    }
+                }
+                foreach (var type in mongoEntityTypes)
+                {
+                    var interface_type = typeof(IMongoDBCollection<>).MakeGenericType(type);
+                    var imple_type = typeof(MongoDBCollection<>).MakeGenericType(type);
+                    services.AddScoped(interface_type, imple_type);
+                }
             }
             catch (Exception ex)
             {
                 throw new Exception("exception when add scope instance for entiteis based on MongoDBEntity.", ex);
             }
-
-            return services;
         }
-
-        private static void AddScopeOfMongDBEntities(this IServiceCollection services)
+        public static void AddMongoDBEntitySingleton(this IServiceCollection services)
         {
-            var assembly = Assembly.GetEntryAssembly();
-            var mongoEntityTypes = new List<Type>();
-            var types = assembly.GetTypes();
-            foreach (var type in types)
+            try
             {
-                if (type != null && type.BaseType != null && type.BaseType.Equals(typeof(MongoEntity)))
+                var assembly = Assembly.GetEntryAssembly();
+                var mongoEntityTypes = new List<Type>();
+                var types = assembly.GetTypes();
+                foreach (var type in types)
                 {
-                    mongoEntityTypes.Add(type);
+                    if (type != null && type.BaseType != null && type.BaseType.Equals(typeof(MongoEntity)))
+                    {
+                        mongoEntityTypes.Add(type);
+                    }
+                }
+                foreach (var type in mongoEntityTypes)
+                {
+                    var interface_type = typeof(IMongoDBCollection<>).MakeGenericType(type);
+                    var imple_type = typeof(MongoDBCollection<>).MakeGenericType(type);
+                    services.AddSingleton(interface_type, imple_type);
                 }
             }
-            foreach (var type in mongoEntityTypes)
+            catch (Exception ex)
             {
-                var interface_type = typeof(IMongoDBCollection<>).MakeGenericType(type);
-                var imple_type = typeof(MongoDBCollection<>).MakeGenericType(type);
-                services.AddScoped(interface_type, imple_type);
+                throw new Exception("exception when add scope instance for entiteis based on MongoDBEntity.", ex);
             }
         }
     }
