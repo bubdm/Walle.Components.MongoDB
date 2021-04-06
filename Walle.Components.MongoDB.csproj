@@ -1,15 +1,15 @@
 <Project Sdk="Microsoft.NET.Sdk">
   <PropertyGroup>
     <TargetFramework>netstandard2.0</TargetFramework>
-    <PackageRequireLicenseAcceptance>true</PackageRequireLicenseAcceptance>
-    <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
+    <PackageRequireLicenseAcceptance>false</PackageRequireLicenseAcceptance>
+    <GeneratePackageOnBuild>false</GeneratePackageOnBuild>
     <PackageIcon>walle_icon_48_48_2.png</PackageIcon>
     <AssemblyVersion>2.0.0.0</AssemblyVersion>
     <FileVersion>2.0.0.0</FileVersion>
     <Version>2.0.0</Version>
     <Description>A mongodb component that are easy-using, low-coding to use.</Description>
     <PackageProjectUrl>https://walle-work.github.io/Walle.Components.MongoDB/</PackageProjectUrl>
-    <RepositoryUrl>https://github.com/walle-work/Walle.Components.MongoDB.git</RepositoryUrl>
+    <RepositoryUrl>https://github.com/walle-work/Walle.Components.MongoDB</RepositoryUrl>
     <RepositoryType>git</RepositoryType>
     <PackageLicenseExpression>MIT</PackageLicenseExpression>
     <Copyright>Copyright © 2021 Walle-Work</Copyright>

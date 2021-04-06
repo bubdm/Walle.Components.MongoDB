@@ -6,7 +6,7 @@ using Walle.Components.MongoDB;
 
 namespace Microsoft.Extensions.DependencyInjection
 {
-    public static class MongoDBConfigExtensions
+    public static class MongoDBExtensions
     {
         public static IServiceCollection ConfigureMongoDB(this IServiceCollection services)
         {
@@ -90,16 +90,25 @@ namespace Microsoft.Extensions.DependencyInjection
             try
             {
                 var entry_assembly = Assembly.GetEntryAssembly();
-                var calling_assembly = Assembly.GetCallingAssembly();
-                var executing_assembly = Assembly.GetExecutingAssembly();
-
-                services.ServiceNow(entry_assembly, services.AddScoped);
-                services.ServiceNow(calling_assembly, services.AddScoped);
-                services.ServiceNow(executing_assembly, services.AddScoped);
+                var mongoEntityTypes = new List<Type>();
+                var types = entry_assembly.GetTypes();
+                foreach (var type in types)
+                {
+                    if (type != null && type.BaseType != null && type.BaseType.Equals(typeof(MongoEntity)))
+                    {
+                        mongoEntityTypes.Add(type);
+                    }
+                }
+                foreach (var type in mongoEntityTypes)
+                {
+                    var interface_type = typeof(IMongoDBCollection<>).MakeGenericType(type);
+                    var imple_type = typeof(MongoDBCollection<>).MakeGenericType(type);
+                    services.AddSingleton(interface_type, imple_type);
+                }
             }
             catch (Exception ex)
             {
-                throw new Exception("exception when add Scope instance for entiteis based on MongoDBEntity.", ex);
+                throw new Exception("exception when add Singleton instance for entiteis based on MongoDBEntity.", ex);
             }
         }
 
@@ -108,12 +117,21 @@ namespace Microsoft.Extensions.DependencyInjection
             try
             {
                 var entry_assembly = Assembly.GetEntryAssembly();
-                var calling_assembly = Assembly.GetCallingAssembly();
-                var executing_assembly = Assembly.GetExecutingAssembly();
-
-                services.ServiceNow(entry_assembly, services.AddSingleton);
-                services.ServiceNow(calling_assembly, services.AddSingleton);
-                services.ServiceNow(executing_assembly, services.AddSingleton);
+                var mongoEntityTypes = new List<Type>();
+                var types = entry_assembly.GetTypes();
+                foreach (var type in types)
+                {
+                    if (type != null && type.BaseType != null && type.BaseType.Equals(typeof(MongoEntity)))
+                    {
+                        mongoEntityTypes.Add(type);
+                    }
+                }
+                foreach (var type in mongoEntityTypes)
+                {
+                    var interface_type = typeof(IMongoDBCollection<>).MakeGenericType(type);
+                    var imple_type = typeof(MongoDBCollection<>).MakeGenericType(type);
+                    services.AddSingleton(interface_type, imple_type);
+                }
             }
             catch (Exception ex)
             {
@@ -121,25 +139,57 @@ namespace Microsoft.Extensions.DependencyInjection
             }
         }
 
-        private static void ServiceNow(this IServiceCollection services, Assembly assembly, Func<Type, Type, IServiceCollection> action)
+        public static void AddMongoDBEntityScope(this IServiceCollection services, Assembly assembly)
         {
-            var mongoEntityTypes = new List<Type>();
-            var types = assembly.GetTypes();
-            foreach (var type in types)
+            try
             {
-                if (type != null && type.BaseType != null && type.BaseType.Equals(typeof(MongoEntity)))
+
+                var mongoEntityTypes = new List<Type>();
+                var types = assembly.GetTypes();
+                foreach (var type in types)
                 {
-                    mongoEntityTypes.Add(type);
+                    if (type != null && type.BaseType != null && type.BaseType.Equals(typeof(MongoEntity)))
+                    {
+                        mongoEntityTypes.Add(type);
+                    }
+                }
+                foreach (var type in mongoEntityTypes)
+                {
+                    var interface_type = typeof(IMongoDBCollection<>).MakeGenericType(type);
+                    var imple_type = typeof(MongoDBCollection<>).MakeGenericType(type);
+                    services.AddSingleton(interface_type, imple_type);
                 }
             }
-            foreach (var type in mongoEntityTypes)
+            catch (Exception ex)
             {
-                var interface_type = typeof(IMongoDBCollection<>).MakeGenericType(type);
-                var imple_type = typeof(MongoDBCollection<>).MakeGenericType(type);
-                action(interface_type, imple_type);
+                throw new Exception("exception when add Singleton instance for entiteis based on MongoDBEntity.", ex);
             }
         }
 
-
+        public static void AddMongoDBEntitySingleton(this IServiceCollection services, Assembly assembly)
+        {
+            try
+            {
+                var mongoEntityTypes = new List<Type>();
+                var types = assembly.GetTypes();
+                foreach (var type in types)
+                {
+                    if (type != null && type.BaseType != null && type.BaseType.Equals(typeof(MongoEntity)))
+                    {
+                        mongoEntityTypes.Add(type);
+                    }
+                }
+                foreach (var type in mongoEntityTypes)
+                {
+                    var interface_type = typeof(IMongoDBCollection<>).MakeGenericType(type);
+                    var imple_type = typeof(MongoDBCollection<>).MakeGenericType(type);
+                    services.AddSingleton(interface_type, imple_type);
+                }
+            }
+            catch (Exception ex)
+            {
+                throw new Exception("exception when add Singleton instance for entiteis based on MongoDBEntity.", ex);
+            }
+        }
     }
 }
