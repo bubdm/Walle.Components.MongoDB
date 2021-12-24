@@ -29,9 +29,9 @@ namespace Walle.Components.MongoDB
         public List<string> Tags { get; set; } = new List<string>();
 
 
-        public DateTime CreationTime
-        {
-            get => DateTime.Parse(ObjectID.CreationTime.ToLocalTime().ToString());
-        }
+        /// <summary>
+        /// 创建时间
+        /// </summary>
+        public DateTime CreationTime { get; set; } = DateTime.Now;
     }
 }
